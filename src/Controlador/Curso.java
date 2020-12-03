@@ -6,16 +6,16 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import Presentacion.InsertaCurso;
+import java.util.ArrayList;
 
 public class Curso {
 //declaración de variables de instancia
 
-    Scanner entrada = new Scanner(System.in);
     private String nombreCurso;
     private int codCurso;
     private int horas;
     private String periodo;
-    
+
     private Profesor profesor;
 
 //método constructor sin parámetros
@@ -23,17 +23,17 @@ public class Curso {
         nombreCurso = "";
         codCurso = 0;
         horas = 0;
-        periodo="";
-        profesor=new Profesor();
+        periodo = "";
+        profesor = new Profesor();
     }
 //método constructor con parámetros
 
-    public Curso(String nomCurso, int codC, int horasC,String periodoC, Profesor profesorC) {
+    public Curso(String nomCurso, int codC, int horasC, String periodoC, Profesor profesorC) {
         nomCurso = this.nombreCurso;
         this.codCurso = codC;
         this.horas = horasC;
-        this.periodo=periodoC;
-        this.profesor=profesorC;
+        this.periodo = periodoC;
+        this.profesor = profesorC;
     }
 
     /*
@@ -55,44 +55,51 @@ public class Curso {
     // insertar cursos en la BD
     public int insertarCursosBD(int cod, String nombreCurso, int duracion) {
         CursoDAO curso = new CursoDAO();
- 
-        if (curso.buscarCurso(cod) != null) {
+
+        if (curso.buscarCursoPorCod(cod) != null) {
             return Constantes.ERROR_GUARDAR_COD_EXISTENTE;
         } else {
             return curso.insertarCurso(cod, nombreCurso, duracion);
         }
     }
-    
-    public int consultarCursoPorCodigo(int cod){
+
+    public ArrayList<Curso> ListarCursos() {
         CursoDAO curso = new CursoDAO();
-        Curso c = curso.buscarCurso(cod);
- 
+        ArrayList<Curso> listado = curso.listarCursos();
+
+        return listado;
+    }
+
+    public int consultarCursoPorCodigo(int cod) {
+        CursoDAO curso = new CursoDAO();
+        Curso c = curso.buscarCursoPorCod(cod);
+
         if (c == null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
             this.setCodCurso(c.getCodCurso());
             this.setHoras(c.getHoras());
             this.setNombreCurso(c.getNombreCurso());
-            
+
             return Constantes.EXITO;
         }
     }
-    
-    public int actualizarCurso(int cod, String nombreCurso, int duracion){
+
+    public int actualizarCurso(int cod, String nombreCurso, int duracion) {
         CursoDAO curso = new CursoDAO();
-        Curso c = curso.buscarCurso(cod);
- 
+        Curso c = curso.buscarCursoPorCod(cod);
+
         if (c == null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
             return curso.actualizarCurso(cod, nombreCurso, duracion);
         }
     }
-    
-    public int eliminarCurso(int cod){
+
+    public int eliminarCurso(int cod) {
         CursoDAO curso = new CursoDAO();
-        Curso c = curso.buscarCurso(cod);
- 
+        Curso c = curso.buscarCursoPorCod(cod);
+
         if (c == null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
@@ -115,7 +122,7 @@ public class Curso {
     public void setHoras(int horas) {
         this.horas = horas;
     }
-    
+
     public String getNombreCurso() {
         return nombreCurso;
     }

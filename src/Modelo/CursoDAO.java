@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import patron.LoggerHandlerSingleton;
@@ -50,7 +51,35 @@ public class CursoDAO extends BDConexion {
         return Constantes.ERROR_GUARDAR;
     }
 
-    public Curso buscarCurso(int codCurso) {
+    public  ArrayList<Curso> listarCursos() {
+
+        ArrayList<Curso> listado=new ArrayList<>();
+
+        String SSQL = "Select codCurso, nombreCurso, horasDuracionCurso from Curso";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+
+            ResultSet rs = pst.executeQuery();
+
+            while(rs.next()) {
+                Curso c = new Curso();
+                c.setCodCurso(rs.getInt("codCurso"));
+                c.setNombreCurso(rs.getString("nombreCurso"));
+                c.setHoras(rs.getInt("horasDuracionCurso"));
+                
+                listado.add(c);
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar curso ::: {0}", ex.getLocalizedMessage());
+        }
+        return listado;
+    }
+
+    public Curso buscarCursoPorCod(int codCurso) {
         Curso c = null;
 
         String SSQL = "Select codCurso, nombreCurso, horasDuracionCurso "
@@ -151,8 +180,8 @@ public class CursoDAO extends BDConexion {
 
         return Constantes.ERROR_GUARDAR;
     }
-    
-        public Curso obtenerDatosCurso(int codCurso) {
+
+    public Curso obtenerDatosCurso(int codCurso) {
         Curso c = null;
 
         String SSQL = "Select codCurso, nombreCurso, horasDuracionCurso "

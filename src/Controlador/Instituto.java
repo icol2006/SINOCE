@@ -6,7 +6,9 @@
 package Controlador;
 
 import Modelo.Constantes;
+import Modelo.CursoDAO;
 import Modelo.InstitutoDAO;
+import java.util.ArrayList;
 
 public class Instituto {
 
@@ -21,8 +23,8 @@ public class Instituto {
         nombreInstituto = "";
         ubicacionInstituto = "";
     }
-    
-     public int insertar(int cedJuridica, String nombreInstituto, String ubicacionInstituto) {
+
+    public int insertar(int cedJuridica, String nombreInstituto, String ubicacionInstituto) {
         InstitutoDAO data = new InstitutoDAO();
 
         if (data.buscarPorNombreInstituto(nombreInstituto) != null) {
@@ -30,6 +32,13 @@ public class Instituto {
         } else {
             return data.insertar(cedJuridica, nombreInstituto, ubicacionInstituto);
         }
+    }
+
+    public ArrayList<Instituto> ListarTodo() {
+        InstitutoDAO datos = new InstitutoDAO();
+        ArrayList<Instituto> listado = datos.listarTodo();
+
+        return listado;
     }
 
     public int actualizar(int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
@@ -51,8 +60,6 @@ public class Instituto {
             return data.eliminar(cod);
         }
     }
-
-    
 
     /**
      * @return the cedJuridica

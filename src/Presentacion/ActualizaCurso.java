@@ -8,6 +8,8 @@ package Presentacion;
 import Controlador.Curso;
 import Modelo.Constantes;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -20,6 +22,29 @@ public class ActualizaCurso extends javax.swing.JFrame {
      */
     public ActualizaCurso() {
         initComponents();
+
+        txtNomCurso.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void removeUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void insertUpdate(DocumentEvent e) {
+                changed();
+            }
+
+            public void changed() {
+                if (txtNomCurso.getText().equals("")) {
+                    btnActualizarCurso.setEnabled(false);
+                } else {
+                    btnActualizarCurso.setEnabled(true);
+                }
+
+            }
+        });
     }
 
     public void limpiarCodCurso() {
@@ -37,15 +62,17 @@ public class ActualizaCurso extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtCodCurso = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtNomCurso = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtHorasCurso = new javax.swing.JTextField();
         btnActualizarCurso = new javax.swing.JButton();
         jlCamposVacios = new javax.swing.JLabel();
+        btnBuscar = new javax.swing.JButton();
+        txtCodCurso = new javax.swing.JFormattedTextField();
+        txtHorasCurso = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         setLocation(new java.awt.Point(500, 200));
         setType(java.awt.Window.Type.UTILITY);
 
@@ -82,62 +109,81 @@ public class ActualizaCurso extends javax.swing.JFrame {
         jlCamposVacios.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jlCamposVacios.setForeground(new java.awt.Color(255, 51, 51));
 
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        txtCodCurso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        txtCodCurso.setPreferredSize(new java.awt.Dimension(6, 20));
+
+        txtHorasCurso.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtCodCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtNomCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(25, 25, 25)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtHorasCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(92, 92, 92)
-                            .addComponent(btnActualizarCurso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtHorasCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(199, 199, 199)
+                        .addComponent(btnActualizarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(105, 105, 105)
-                        .addComponent(jlCamposVacios, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
+                        .addComponent(jlCamposVacios, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCodCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(btnBuscar))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNomCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(52, 52, 52)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCodCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNomCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNomCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtHorasCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnActualizarCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(btnActualizarCurso))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtHorasCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(jlCamposVacios, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 
     private void btnActualizarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarCursoActionPerformed
         if (txtCodCurso.getText().isEmpty() || txtNomCurso.getText().isEmpty() || txtHorasCurso.getText().isEmpty()) {
@@ -145,38 +191,25 @@ public class ActualizaCurso extends javax.swing.JFrame {
         } else {
             int horas = 0, cod = 0;
             Curso cu = new Curso();
-            try {
-                cod = Integer.parseInt(txtCodCurso.getText());
-            } catch(NumberFormatException nfe){
-                JOptionPane.showMessageDialog(this, "El codigo de curso debe ser númerico", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            try{
-                horas = Integer.parseInt(txtHorasCurso.getText());
-            } catch(NumberFormatException nfe){
-                JOptionPane.showMessageDialog(this, "La cantidad de horas del curso debe ser númerico", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
+
+            cod = Integer.parseInt(txtCodCurso.getText());
+            horas = Integer.parseInt(txtHorasCurso.getText());
             int resultado = cu.actualizarCurso(cod, txtNomCurso.getText(), horas);
-            
-            if (resultado == Constantes.EXITO){
-                JOptionPane.showMessageDialog(null, "¡Curso actualizado de manera exitosa!", 
-                    "Resultado de actualizacion", JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                if (resultado == Constantes.ERROR_CONSULTA_NO_EXISTE){
-                    JOptionPane.showMessageDialog(null, "¡El código del curso no existe!", 
-                        "Resultado de actualizacion", JOptionPane.ERROR_MESSAGE);
-                }else{
+
+            if (resultado == Constantes.EXITO) {
+                JOptionPane.showMessageDialog(null, "¡Curso actualizado de manera exitosa!",
+                        "Resultado de actualizacion", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                if (resultado == Constantes.ERROR_CONSULTA_NO_EXISTE) {
+                    JOptionPane.showMessageDialog(null, "¡El código del curso no existe!",
+                            "Resultado de actualizacion", JOptionPane.ERROR_MESSAGE);
+                } else {
                     JOptionPane.showMessageDialog(this, "Error al actualizar curso", "Error",
-                        JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
-            
+
         }
- 
     }//GEN-LAST:event_btnActualizarCursoActionPerformed
 
     private void btnActualizarCursoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnActualizarCursoMouseClicked
@@ -184,15 +217,35 @@ public class ActualizaCurso extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnActualizarCursoMouseClicked
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        buscarCurso();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void buscarCurso() {
+        Curso cu = new Curso();
+
+        int cod = Integer.parseInt(txtCodCurso.getText());
+        int respuesta = cu.consultarCursoPorCodigo(cod);
+
+        if (respuesta != Constantes.EXITO) {
+            JOptionPane.showMessageDialog(this, "Curso no existe", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        } else {
+            this.txtNomCurso.setText(cu.getNombreCurso());
+            this.txtHorasCurso.setText(cu.getHoras() + "");
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarCurso;
+    private javax.swing.JButton btnBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jlCamposVacios;
-    private javax.swing.JTextField txtCodCurso;
-    private javax.swing.JTextField txtHorasCurso;
+    private javax.swing.JFormattedTextField txtCodCurso;
+    private javax.swing.JFormattedTextField txtHorasCurso;
     private javax.swing.JTextField txtNomCurso;
     // End of variables declaration//GEN-END:variables
 

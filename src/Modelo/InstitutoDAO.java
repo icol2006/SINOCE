@@ -5,11 +5,13 @@
  */
 package Modelo;
 
+import Controlador.Curso;
 import Controlador.Instituto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import patron.LoggerHandlerSingleton;
@@ -51,8 +53,8 @@ public class InstitutoDAO extends BDConexion {
         }
         return resultado;
     }
-    
-        public Instituto buscarPorNombreInstituto(String nombreInstituto) {
+
+    public Instituto buscarPorNombreInstituto(String nombreInstituto) {
         Instituto resultado = null;
 
         String SSQL = "Select cedJuridica,codSede,nombreInstituto,ubicacionInstituto "
@@ -104,6 +106,35 @@ public class InstitutoDAO extends BDConexion {
         }
 
         return Constantes.ERROR_GUARDAR;
+    }
+
+    public ArrayList<Instituto> listarTodo() {
+
+        ArrayList<Instituto> listado = new ArrayList<>();
+
+        String SSQL = "Select cedJuridica, codSede, nombreInstituto, ubicacionInstituto from Instituto";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Instituto data = new Instituto();
+                data.setCedJuridica(rs.getInt("cedJuridica"));
+                data.setCodSede(rs.getInt("codSede"));
+                data.setNombreInstituto(rs.getString("nombreInstituto"));
+                data.setUbicacionInstituto(rs.getString("ubicacionInstituto"));
+
+                listado.add(data);
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar instituto ::: {0}", ex.getLocalizedMessage());
+        }
+        return listado;
     }
 
     public int actualizar(int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
