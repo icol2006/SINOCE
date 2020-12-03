@@ -14,21 +14,26 @@ public class Curso {
     private String nombreCurso;
     private int codCurso;
     private int horas;
+    private String periodo;
+    
+    private Profesor profesor;
 
 //método constructor sin parámetros
     public Curso() {
         nombreCurso = "";
         codCurso = 0;
         horas = 0;
-
+        periodo="";
+        profesor=new Profesor();
     }
 //método constructor con parámetros
 
-    public Curso(String nomCurso, int codC, int horasC) {
-        nomCurso = nombreCurso;
-        codC = codCurso;
-        horasC = horas;
-
+    public Curso(String nomCurso, int codC, int horasC,String periodoC, Profesor profesorC) {
+        nomCurso = this.nombreCurso;
+        this.codCurso = codC;
+        this.horas = horasC;
+        this.periodo=periodoC;
+        this.profesor=profesorC;
     }
 
     /*

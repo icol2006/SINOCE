@@ -14,16 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import patron.LoggerHandlerSingleton;
 
-/**
- *
- * @author yrojasp
- */
 public class CursoDAO extends BDConexion {
+
     private final static Logger LOGGER = Logger.getLogger("Modelo.CursoDAO");
 
     Connection cn = conexion();
-    
-    public CursoDAO(){
+
+    public CursoDAO() {
         LOGGER.addHandler(LoggerHandlerSingleton.getInstance().getFh());
     }
 
@@ -32,16 +29,16 @@ public class CursoDAO extends BDConexion {
         try {
             String sql = "INSERT INTO Curso (codCurso, nombreCurso, horasDuracionCurso) "
                     + "VALUES (?, ?, ?)";
-            
+
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setInt(1, cod);
             statement.setString(2, nomCurso);
             statement.setInt(3, duracion);
-            
+
             int filasInsertadas = statement.executeUpdate();
-            
+
             statement.close();
-            
+
             if (filasInsertadas > 0) {
                 return Constantes.EXITO;
             }
@@ -49,29 +46,29 @@ public class CursoDAO extends BDConexion {
         catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Excepcion al guardar curso ::: {0}", ex.getLocalizedMessage());
         }
-        
+
         return Constantes.ERROR_GUARDAR;
     }
 
     public Curso buscarCurso(int codCurso) {
         Curso c = null;
-        
-        String SSQL =   "Select codCurso, nombreCurso, horasDuracionCurso "
-                 + "from Curso where codCurso = ?";
-         
+
+        String SSQL = "Select codCurso, nombreCurso, horasDuracionCurso "
+                + "from Curso where codCurso = ?";
+
         try {
             PreparedStatement pst = cn.prepareStatement(SSQL);
             pst.setInt(1, codCurso);
-                
+
             ResultSet rs = pst.executeQuery();
-            
+
             if (rs.next()) {
                 c = new Curso();
                 c.setNombreCurso(rs.getString("nombreCurso"));
                 c.setHoras(rs.getInt("horasDuracionCurso"));
                 c.setCodCurso(codCurso);
             }
-            
+
             rs.close();
             pst.close();
         } catch (SQLException ex) {
@@ -85,16 +82,16 @@ public class CursoDAO extends BDConexion {
         try {
             String sql = "UPDATE Curso set nombreCurso = ?, horasDuracionCurso = ? "
                     + "WHERE codCurso = ?";
-            
+
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setString(1, nomCurso);
             statement.setInt(2, duracion);
             statement.setInt(3, cod);
-            
+
             int filasActualizadas = statement.executeUpdate();
-            
+
             statement.close();
-            
+
             if (filasActualizadas > 0) {
                 return Constantes.EXITO;
             }
@@ -102,22 +99,22 @@ public class CursoDAO extends BDConexion {
         catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Excepcion al actualizar curso ::: {0}", ex.getLocalizedMessage());
         }
-        
+
         return Constantes.ERROR_MODIFICACION;
     }
-    
+
     public int eliminarCurso(int cod) {
 
         try {
             String sql = "DELETE FROM Curso WHERE codCurso = ?";
-            
+
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setInt(1, cod);
-            
+
             int filasActualizadas = statement.executeUpdate();
-            
+
             statement.close();
-            
+
             if (filasActualizadas > 0) {
                 return Constantes.EXITO;
             }
@@ -125,7 +122,61 @@ public class CursoDAO extends BDConexion {
         catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Excepcion al actualizar curso ::: {0}", ex.getLocalizedMessage());
         }
-        
+
         return Constantes.ERROR_ELIMINACION;
     }
+
+    public int agregarProfesorCurso(int codProfesor, int codCurso, String periodo) {
+
+        try {
+            String sql = "INSERT INTO ProfesorCurso (codProfesor,codCurso,periodo) "
+                    + "VALUES (?, ?, ?)";
+
+            PreparedStatement statement = cn.prepareStatement(sql);
+            statement.setInt(1, codProfesor);
+            statement.setInt(2, codCurso);
+            statement.setString(3, periodo);
+
+            int filasInsertadas = statement.executeUpdate();
+
+            statement.close();
+
+            if (filasInsertadas > 0) {
+                return Constantes.EXITO;
+            }
+        } //FIN INSERTAR CURSO
+        catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al guardar curso ::: {0}", ex.getLocalizedMessage());
+        }
+
+        return Constantes.ERROR_GUARDAR;
+    }
+    
+        public Curso obtenerDatosCurso(int codCurso) {
+        Curso c = null;
+
+        String SSQL = "Select codCurso, nombreCurso, horasDuracionCurso "
+                + "from Curso where codCurso = ?";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+            pst.setInt(1, codCurso);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                c = new Curso();
+                c.setNombreCurso(rs.getString("nombreCurso"));
+                c.setHoras(rs.getInt("horasDuracionCurso"));
+                c.setCodCurso(codCurso);
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar curso ::: {0}", ex.getLocalizedMessage());
+        }
+        return c;
+    }
+
 }

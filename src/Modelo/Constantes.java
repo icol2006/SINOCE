@@ -5,10 +5,6 @@
  */
 package Modelo;
 
-/**
- *
- * @author dafons
- */
 public interface Constantes {
     static final int EXITO = 0;
     static final int ERROR_GUARDAR = 1;

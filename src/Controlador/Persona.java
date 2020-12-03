@@ -7,14 +7,16 @@ public class Persona {
     Scanner entrada = new Scanner(System.in);
     private long cedulaPersona;
     private String nombrePersona;
-    private String apellidosPersona;
+    private String apellido1;
+    private String apellido2;
     private String correoElectronico;
     private long telefono;
 
     public Persona() {
         cedulaPersona = 0;
         nombrePersona = "";
-        apellidosPersona = "";
+        apellido1 = "";
+        apellido2 = "";
         correoElectronico = "";
         telefono = 0;
     }
@@ -33,8 +35,7 @@ public class Persona {
         boolean cedB = false;
         System.out.println("Ingrese la cédula a buscar ");
         cedBuscada = entrada.nextInt();
-        if (cedBuscada == getCedulaPersona()
-                ) {
+        if (cedBuscada == getCedulaPersona()) {
             cedB = true;
         }
         return cedB;
@@ -64,12 +65,20 @@ public class Persona {
         this.nombrePersona = nombrePersona;
     }
 
-    public String getApellidosPersona() {
-        return apellidosPersona;
+    public String getApellido1() {
+        return apellido1;
     }
 
-    public void setApellidosPersona(String apellidosPersona) {
-        this.apellidosPersona = apellidosPersona;
+    public void setApellido1(String apellido1) {
+        this.apellido1 = apellido1;
+    }
+
+    public String getApellido2() {
+        return apellido2;
+    }
+
+    public void setApellido2(String apellido2) {
+        this.apellido1 = apellido2;
     }
 
     public String getCorreoElectronico() {
