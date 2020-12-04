@@ -5,12 +5,12 @@ import Modelo.CursoDAO;
 import java.sql.SQLException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-import Presentacion.InsertaCurso;
+import Presentacion.FrmInsertaCurso;
 import java.util.ArrayList;
 
 public class Curso {
-//declaración de variables de instancia
 
+//declaración de variables de instancia
     private String nombreCurso;
     private int codCurso;
     private int horas;
@@ -36,38 +36,28 @@ public class Curso {
         this.profesor = profesorC;
     }
 
-    /*
-//operacion para ingresar cursos en consola
-    public void ingresarCurso() {
+    public ArrayList<Curso> ListarTodo() {
+        CursoDAO curso = new CursoDAO();
+        ArrayList<Curso> listado = curso.ListarTodo();
 
-        System.out.println("Ingrese el nombre del curso");
-        nombreCurso = entrada.next();
+        return listado;
+    }
 
-        System.out.println("Ingrese el código del curso");
-        codCurso = entrada.nextInt();
+    public ArrayList<Curso> ListarCursoProfesor() {
+        CursoDAO curso = new CursoDAO();
+        ArrayList<Curso> listado = curso.ListarCursoProfesor();
 
-        System.out.println("Ingrese la duración en horas del curso");
-        horas = entrada.nextInt();
+        return listado;
+    }
 
-    }// fin del método para ingresar cursos
-
-     */
-    // insertar cursos en la BD
-    public int insertarCursosBD(int cod, String nombreCurso, int duracion) {
+    public int Insertar(int cod, String nombreCurso, int duracion) {
         CursoDAO curso = new CursoDAO();
 
         if (curso.buscarCursoPorCod(cod) != null) {
             return Constantes.ERROR_GUARDAR_COD_EXISTENTE;
         } else {
-            return curso.insertarCurso(cod, nombreCurso, duracion);
+            return curso.Insertar(cod, nombreCurso, duracion);
         }
-    }
-
-    public ArrayList<Curso> ListarCursos() {
-        CursoDAO curso = new CursoDAO();
-        ArrayList<Curso> listado = curso.listarCursos();
-
-        return listado;
     }
 
     public int consultarCursoPorCodigo(int cod) {
@@ -85,7 +75,7 @@ public class Curso {
         }
     }
 
-    public int actualizarCurso(int cod, String nombreCurso, int duracion) {
+    public int ActualizarCurso(int cod, String nombreCurso, int duracion) {
         CursoDAO curso = new CursoDAO();
         Curso c = curso.buscarCursoPorCod(cod);
 
@@ -93,6 +83,17 @@ public class Curso {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
             return curso.actualizarCurso(cod, nombreCurso, duracion);
+        }
+    }
+
+    public int AgregarProfesorCurso(int idProfesor, int codCurso, String periodo) {
+        CursoDAO curso = new CursoDAO();
+        Curso c = curso.buscarCursoPorCod(codCurso);
+
+        if (c == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            return curso.AgregarProfesorCurso(idProfesor, codCurso, periodo);
         }
     }
 
@@ -105,6 +106,11 @@ public class Curso {
         } else {
             return curso.eliminarCurso(cod);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Cod:" + this.getCodCurso() + " - " + this.getNombreCurso();
     }
 
     public int getCodCurso() {
@@ -129,6 +135,20 @@ public class Curso {
 
     public void setNombreCurso(String nombreCurso) {
         this.nombreCurso = nombreCurso;
+    }
+
+    /**
+     * @return the profesor
+     */
+    public Profesor getProfesor() {
+        return profesor;
+    }
+
+    /**
+     * @param profesor the profesor to set
+     */
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
     }
 
 }

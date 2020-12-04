@@ -12,25 +12,27 @@ import java.util.ArrayList;
 
 public class Instituto {
 
+    private int idInstituto;
     private int cedJuridica;
     private int codSede;
     private String nombreInstituto;
     private String ubicacionInstituto;
 
     public Instituto() {
+        idInstituto = 0;
         cedJuridica = 0;
         codSede = 0;
         nombreInstituto = "";
         ubicacionInstituto = "";
     }
 
-    public int insertar(int cedJuridica, String nombreInstituto, String ubicacionInstituto) {
+    public int insertar(int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
         InstitutoDAO data = new InstitutoDAO();
 
-        if (data.buscarPorNombreInstituto(nombreInstituto) != null) {
+        if (data.buscarPorCodSede(codSede) != null) {
             return Constantes.ERROR_GUARDAR_COD_EXISTENTE;
         } else {
-            return data.insertar(cedJuridica, nombreInstituto, ubicacionInstituto);
+            return data.insertar(cedJuridica, codSede, nombreInstituto, ubicacionInstituto);
         }
     }
 
@@ -41,13 +43,30 @@ public class Instituto {
         return listado;
     }
 
-    public int actualizar(int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
-        InstitutoDAO data = new InstitutoDAO();
+    public int consultarPorCodSede(int cod) {
+        InstitutoDAO datos = new InstitutoDAO();
+        Instituto res = datos.buscarPorCodSede(cod);
 
-        if (data.buscarPorNombreInstituto(nombreInstituto) == null) {
+        if (res == null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
-            return data.actualizar(cedJuridica, codSede, nombreInstituto, ubicacionInstituto);
+            this.setIdInstituto(res.getIdInstituto());
+            this.setCedJuridica(res.getCedJuridica());
+            this.setCodSede(res.getCodSede());
+            this.setNombreInstituto(res.getNombreInstituto());
+            this.setUbicacionInstituto(res.getUbicacionInstituto());
+
+            return Constantes.EXITO;
+        }
+    }
+
+    public int actualizar(int idInstituto, int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
+        InstitutoDAO data = new InstitutoDAO();
+
+        if (data.buscarPorId(idInstituto) == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            return data.actualizar(idInstituto, cedJuridica, codSede, nombreInstituto, ubicacionInstituto);
         }
     }
 
@@ -59,6 +78,26 @@ public class Instituto {
         } else {
             return data.eliminar(cod);
         }
+    }
+    
+    @Override
+    public String toString()
+    {
+        return  this.getNombreInstituto();
+    }
+
+    /**
+     * @return the cedJuridica
+     */
+    public int getIdInstituto() {
+        return idInstituto;
+    }
+
+    /**
+     * @param IdInstituto the idInstituto to set
+     */
+    public void setIdInstituto(int idInstituto) {
+        this.idInstituto = idInstituto;
     }
 
     /**

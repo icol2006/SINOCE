@@ -15,8 +15,8 @@ public class Matricula {
     private long idMatricula;
     private String periodoMatricula;
     private int codCurso;
-    private int carneEstudiante;
-    private int codSede;
+    private int idEstudiante;
+    private int idInstituto;
     private Date fechaInicio;
     private Date fechaConclusion;
 
@@ -24,30 +24,30 @@ public class Matricula {
         idMatricula = 0;
         periodoMatricula = "";
         codCurso = 0;
-        carneEstudiante = 0;
-        codSede = 0;
+        idEstudiante = 0;
+        idInstituto = 0;
         fechaInicio = null;
         fechaConclusion = null;
     }
 
-    public int insertar(String periodoMatricula, int codCurso, int carneEstudiante, int codSede, Date fechaInicio, Date fechaConclusion) {
+    public int insertar(String periodoMatricula, int codCurso, int idEstudiante, int idInstituto, Date fechaInicio, Date fechaConclusion) {
         MatriculaDAO data = new MatriculaDAO();
 
-        if (data.buscarPorPerido_CodCurso_CarEstudiante_CodSede(periodoMatricula, codCurso, carneEstudiante, codSede) != null) {
+        if (data.buscarPorPerido_CodCurso_CarEstudiante_CodSede(periodoMatricula, idInstituto, this.idEstudiante, this.idInstituto) != null) {
             return Constantes.ERROR_GUARDAR_COD_EXISTENTE;
         } else {
-            return data.insertar(periodoMatricula, codCurso, carneEstudiante, codSede, fechaInicio, fechaConclusion);
+            return data.insertar(periodoMatricula, codCurso, idEstudiante, idInstituto, fechaInicio, fechaConclusion);
         }
     }
 
-    public int actualizar(int idMatricula, String periodoMatricula, int codCurso, int carneEstudiante, int codSede,
+    public int actualizar(int idMatricula, String periodoMatricula, int codCurso, int idEstudiante, int idInstituto,
             Date fechaInicio, Date fechaConclusion) {
         MatriculaDAO data = new MatriculaDAO();
 
         if (data.buscarPorId(idMatricula) != null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
-            return data.actualizar(idMatricula, periodoMatricula, codCurso, carneEstudiante, codSede, fechaInicio, fechaConclusion);
+            return data.actualizar(idMatricula, periodoMatricula, codCurso, idEstudiante, idInstituto, fechaInicio, fechaConclusion);
         }
     }
 
@@ -106,29 +106,29 @@ public class Matricula {
     /**
      * @return the carneEstudiante
      */
-    public int getCarneEstudiante() {
-        return carneEstudiante;
+    public int getIdEstudiante() {
+        return idEstudiante;
     }
 
     /**
      * @param carneEstudiante the carneEstudiante to set
      */
-    public void setCarneEstudiante(int carneEstudiante) {
-        this.carneEstudiante = carneEstudiante;
+    public void setIdEstudiante(int idEstudiante) {
+        this.idEstudiante = idEstudiante;
     }
 
     /**
      * @return the codSede
      */
-    public int getCodSede() {
-        return codSede;
+    public int getIdInstituto() {
+        return idInstituto;
     }
 
     /**
      * @param codSede the codSede to set
      */
-    public void setCodSede(int codSede) {
-        this.codSede = codSede;
+    public void setIdInstituto(int idInstituto) {
+        this.idInstituto = idInstituto;
     }
 
     /**

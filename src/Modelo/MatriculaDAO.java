@@ -28,7 +28,7 @@ public class MatriculaDAO extends BDConexion {
     public Matricula buscarPorId(int idMatricula) {
         Matricula resultado = null;
 
-        String SSQL = "Select idMatricula,periodoMatricula,codCurso,carneEstudiante,codSede,fechaInicio,fechaConclusion "
+        String SSQL = "Select idMatricula,periodoMatricula,codCurso,idEstudiante,idInstituto,fechaInicio,fechaConclusion "
                 + "from Matricula where idMatricula = ?";
 
         try {
@@ -42,7 +42,8 @@ public class MatriculaDAO extends BDConexion {
                 resultado.setIdMatricula(rs.getInt("idMatricula"));
                 resultado.setPeriodoMatricula(rs.getString("periodoMatricula"));
                 resultado.setCodCurso(rs.getInt("codCurso"));
-                resultado.setCodSede(rs.getInt("codSede"));
+                resultado.setIdEstudiante(rs.getInt("idEstudiante"));
+                resultado.setIdInstituto(rs.getInt("idInstituto"));
                 resultado.setFechaInicio(rs.getDate("fechaInicio"));
                 resultado.setFechaConclusion(rs.getDate("fechaConclusion"));
             }
@@ -54,21 +55,20 @@ public class MatriculaDAO extends BDConexion {
         }
         return resultado;
     }
-    
-        public Matricula buscarPorPerido_CodCurso_CarEstudiante_CodSede(String periodoMatricula,int codCurso,
-                int carneEstudiante, int codSede) {
+
+    public Matricula buscarPorPerido_CodCurso_CarEstudiante_CodSede(String periodoMatricula, int codCurso,
+            int idEstudiante, int idInstituto) {
         Matricula resultado = null;
 
-        String SSQL = "Select idMatricula,periodoMatricula,codCurso,carneEstudiante,codSede,fechaInicio,fechaConclusion "
-                + "from Matricula where periodoMatricula = ? and codCurso = ? and carneEstudiante = ? and codSede = ?";
+        String SSQL = "Select idMatricula,periodoMatricula,codCurso,idEstudiante,idInstituto,fechaInicio,fechaConclusion "
+                + " from Matricula where periodoMatricula = ? and codCurso = ? and idEstudiante = ? and idInstituto = ?";
 
         try {
             PreparedStatement pst = cn.prepareStatement(SSQL);
             pst.setString(1, periodoMatricula);
-            pst.setInt(1, codCurso);
-            pst.setInt(1, carneEstudiante);
-            pst.setInt(1, codSede);
-            
+            pst.setInt(2, codCurso);
+            pst.setInt(3, idEstudiante);
+            pst.setInt(4, idInstituto);
 
             ResultSet rs = pst.executeQuery();
 
@@ -77,7 +77,8 @@ public class MatriculaDAO extends BDConexion {
                 resultado.setIdMatricula(rs.getInt("idMatricula"));
                 resultado.setPeriodoMatricula(rs.getString("periodoMatricula"));
                 resultado.setCodCurso(rs.getInt("codCurso"));
-                resultado.setCodSede(rs.getInt("codSede"));
+                resultado.setIdEstudiante(rs.getInt("idEstudiante"));
+                resultado.setIdInstituto(rs.getInt("idInstituto"));
                 resultado.setFechaInicio(rs.getDate("fechaInicio"));
                 resultado.setFechaConclusion(rs.getDate("fechaConclusion"));
             }
@@ -90,17 +91,17 @@ public class MatriculaDAO extends BDConexion {
         return resultado;
     }
 
-    public int insertar(String periodoMatricula, int codCurso, int carneEstudiante, int codSede, Date fechaInicio, Date fechaConclusion) {
+    public int insertar(String periodoMatricula, int codCurso, int idEstudiante, int idInstituto, Date fechaInicio, Date fechaConclusion) {
 
         try {
-            String sql = "INSERT INTO Matricula (periodoMatricula,codCurso,carneEstudiante,codSede,fechaInicio,fechaConclusion) "
+            String sql = "INSERT INTO Matricula (periodoMatricula,codCurso,idEstudiante,idInstituto,fechaInicio,fechaConclusion) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
 
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setString(1, periodoMatricula);
             statement.setInt(2, codCurso);
-            statement.setInt(3, carneEstudiante);
-            statement.setInt(4, codSede);
+            statement.setInt(3, idEstudiante);
+            statement.setInt(4, idInstituto);
             statement.setDate(5, fechaInicio);
             statement.setDate(6, fechaConclusion);
 
@@ -119,18 +120,18 @@ public class MatriculaDAO extends BDConexion {
         return Constantes.ERROR_GUARDAR;
     }
 
-    public int actualizar(int idMatricula, String periodoMatricula, int codCurso, int carneEstudiante, int codSede,
+    public int actualizar(int idMatricula, String periodoMatricula, int codCurso, int idEstudiante, int idInstituto,
             Date fechaInicio, Date fechaConclusion) {
 
         try {
-            String sql = "UPDATE Matricula set periodoMatricula = ?, codCurso = ?, carneEstudiante = ?, codSede = ?, "
+            String sql = "UPDATE Matricula set periodoMatricula = ?, codCurso = ?, idEstudiante = ?, idInstituto = ?, "
                     + "fechaInicio = ?, fechaConclusion = ?"
                     + "WHERE idMatricula = ?";
 
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setInt(1, codCurso);
-            statement.setInt(2, carneEstudiante);
-            statement.setInt(3, codSede);
+            statement.setInt(2, idEstudiante);
+            statement.setInt(3, idInstituto);
             statement.setDate(4, fechaInicio);
             statement.setDate(5, fechaConclusion);
             statement.setString(6, periodoMatricula);

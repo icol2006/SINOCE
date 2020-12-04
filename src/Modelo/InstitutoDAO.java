@@ -1,11 +1,11 @@
 /*
+
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package Modelo;
 
-import Controlador.Curso;
 import Controlador.Instituto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,10 +26,39 @@ public class InstitutoDAO extends BDConexion {
         LOGGER.addHandler(LoggerHandlerSingleton.getInstance().getFh());
     }
 
+    public Instituto buscarPorId(int idInstituto) {
+        Instituto resultado = null;
+
+        String SSQL = "Select idInstituto,cedJuridica,codSede,nombreInstituto,ubicacionInstituto "
+                + "from Instituto where idInstituto = ?";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+            pst.setInt(1, idInstituto);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                resultado = new Instituto();
+                resultado.setIdInstituto(rs.getInt("idInstituto"));
+                resultado.setCedJuridica(rs.getInt("cedJuridica"));
+                resultado.setCodSede(rs.getInt("codSede"));
+                resultado.setNombreInstituto(rs.getString("nombreInstituto"));
+                resultado.setUbicacionInstituto(rs.getString("ubicacionInstituto"));
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar instituto ::: {0}", ex.getLocalizedMessage());
+        }
+        return resultado;
+    }
+
     public Instituto buscarPorCodSede(int codSede) {
         Instituto resultado = null;
 
-        String SSQL = "Select cedJuridica,codSede,nombreInstituto,ubicacionInstituto "
+        String SSQL = "Select idInstituto,cedJuridica,codSede,nombreInstituto,ubicacionInstituto "
                 + "from Instituto where codSede = ?";
 
         try {
@@ -40,6 +69,7 @@ public class InstitutoDAO extends BDConexion {
 
             if (rs.next()) {
                 resultado = new Instituto();
+                resultado.setIdInstituto(rs.getInt("idInstituto"));
                 resultado.setCedJuridica(rs.getInt("cedJuridica"));
                 resultado.setCodSede(rs.getInt("codSede"));
                 resultado.setNombreInstituto(rs.getString("nombreInstituto"));
@@ -57,7 +87,7 @@ public class InstitutoDAO extends BDConexion {
     public Instituto buscarPorNombreInstituto(String nombreInstituto) {
         Instituto resultado = null;
 
-        String SSQL = "Select cedJuridica,codSede,nombreInstituto,ubicacionInstituto "
+        String SSQL = "Select idInstituto,cedJuridica,codSede,nombreInstituto,ubicacionInstituto "
                 + "from Instituto where nombreInstituto = ?";
 
         try {
@@ -68,6 +98,7 @@ public class InstitutoDAO extends BDConexion {
 
             if (rs.next()) {
                 resultado = new Instituto();
+                resultado.setIdInstituto(rs.getInt("idInstituto"));
                 resultado.setCedJuridica(rs.getInt("cedJuridica"));
                 resultado.setCodSede(rs.getInt("codSede"));
                 resultado.setNombreInstituto(rs.getString("nombreInstituto"));
@@ -82,16 +113,17 @@ public class InstitutoDAO extends BDConexion {
         return resultado;
     }
 
-    public int insertar(int cedJuridica, String nombreInstituto, String ubicacionInstituto) {
+    public int insertar(int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
 
         try {
-            String sql = "INSERT INTO Instituto (cedJuridica,nombreInstituto,ubicacionInstituto) "
-                    + "VALUES (?,?,?)";
+            String sql = "INSERT INTO Instituto (cedJuridica,codSede,nombreInstituto,ubicacionInstituto) "
+                    + "VALUES (?,?,?,?)";
 
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setInt(1, cedJuridica);
-            statement.setString(2, nombreInstituto);
-            statement.setString(3, ubicacionInstituto);
+            statement.setInt(2, codSede);
+            statement.setString(3, nombreInstituto);
+            statement.setString(4, ubicacionInstituto);
 
             int filasInsertadas = statement.executeUpdate();
 
@@ -112,7 +144,7 @@ public class InstitutoDAO extends BDConexion {
 
         ArrayList<Instituto> listado = new ArrayList<>();
 
-        String SSQL = "Select cedJuridica, codSede, nombreInstituto, ubicacionInstituto from Instituto";
+        String SSQL = "Select idInstituto, cedJuridica, codSede, nombreInstituto, ubicacionInstituto from Instituto";
 
         try {
             PreparedStatement pst = cn.prepareStatement(SSQL);
@@ -121,6 +153,7 @@ public class InstitutoDAO extends BDConexion {
 
             while (rs.next()) {
                 Instituto data = new Instituto();
+                data.setIdInstituto(rs.getInt("idInstituto"));
                 data.setCedJuridica(rs.getInt("cedJuridica"));
                 data.setCodSede(rs.getInt("codSede"));
                 data.setNombreInstituto(rs.getString("nombreInstituto"));
@@ -137,17 +170,18 @@ public class InstitutoDAO extends BDConexion {
         return listado;
     }
 
-    public int actualizar(int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
+    public int actualizar(int idInstituto, int cedJuridica, int codSede, String nombreInstituto, String ubicacionInstituto) {
 
         try {
-            String sql = "UPDATE Instituto set  cedJuridica = ?, nombreInstituto = ?,ubicacionInstituto = ?"
-                    + "WHERE codSede = ?";
+            String sql = "UPDATE Instituto set  cedJuridica = ?, codSede=?, nombreInstituto = ?,ubicacionInstituto = ? "
+                    + "WHERE idInstituto = ?";
 
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setInt(1, cedJuridica);
-            statement.setString(2, nombreInstituto);
-            statement.setString(3, ubicacionInstituto);
-            statement.setInt(4, codSede);
+            statement.setInt(2, codSede);
+            statement.setString(3, nombreInstituto);
+            statement.setString(4, ubicacionInstituto);
+            statement.setInt(5, idInstituto);
 
             int filasActualizadas = statement.executeUpdate();
 
@@ -167,7 +201,7 @@ public class InstitutoDAO extends BDConexion {
     public int eliminar(int cod) {
 
         try {
-            String sql = "DELETE FROM Instituto WHERE codSede = ?";
+            String sql = "DELETE FROM Instituto WHERE idInstituto = ?";
 
             PreparedStatement statement = cn.prepareStatement(sql);
             statement.setInt(1, cod);

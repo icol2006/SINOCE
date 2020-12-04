@@ -6,6 +6,8 @@
 package Modelo;
 
 import Controlador.Curso;
+import Controlador.Estudiante;
+import Controlador.Profesor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +27,7 @@ public class CursoDAO extends BDConexion {
         LOGGER.addHandler(LoggerHandlerSingleton.getInstance().getFh());
     }
 
-    public int insertarCurso(int cod, String nomCurso, int duracion) {
+    public int Insertar(int cod, String nomCurso, int duracion) {
 
         try {
             String sql = "INSERT INTO Curso (codCurso, nombreCurso, horasDuracionCurso) "
@@ -51,9 +53,9 @@ public class CursoDAO extends BDConexion {
         return Constantes.ERROR_GUARDAR;
     }
 
-    public  ArrayList<Curso> listarCursos() {
+    public ArrayList<Curso> ListarTodo() {
 
-        ArrayList<Curso> listado=new ArrayList<>();
+        ArrayList<Curso> listado = new ArrayList<>();
 
         String SSQL = "Select codCurso, nombreCurso, horasDuracionCurso from Curso";
 
@@ -62,11 +64,47 @@ public class CursoDAO extends BDConexion {
 
             ResultSet rs = pst.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 Curso c = new Curso();
                 c.setCodCurso(rs.getInt("codCurso"));
                 c.setNombreCurso(rs.getString("nombreCurso"));
                 c.setHoras(rs.getInt("horasDuracionCurso"));
+
+                listado.add(c);
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar curso ::: {0}", ex.getLocalizedMessage());
+        }
+        return listado;
+    }
+
+    public ArrayList<Curso> ListarCursoProfesor() {
+
+        ArrayList<Curso> listado = new ArrayList<>();
+
+        String SSQL = "Select cu.codCurso, cu.nombreCurso, dapr.nombrePersona, dapr.apellido1, dapr.apellido2 "
+                + " from Curso cu, ProfesorCurso prcu,Profesores pr,DatosPersona dapr "
+                + " where cu.codCurso=prcu.codCurso and prcu.idProfesor=pr.idProfesor and pr.idPersona=dapr.idPersona ";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                Curso c = new Curso();
+                Profesor p = new Profesor();
+                c.setCodCurso(rs.getInt("codCurso"));
+                c.setNombreCurso(rs.getString("nombreCurso"));
+
+                p.setNombrePersona(rs.getString("nombrePersona"));
+                p.setApellido1(rs.getString("apellido1"));
+                p.setApellido2(rs.getString("apellido2"));
+                
+                c.setProfesor(p);
                 
                 listado.add(c);
             }
@@ -155,14 +193,14 @@ public class CursoDAO extends BDConexion {
         return Constantes.ERROR_ELIMINACION;
     }
 
-    public int agregarProfesorCurso(int codProfesor, int codCurso, String periodo) {
+    public int AgregarProfesorCurso(int idProfesor, int codCurso, String periodo) {
 
         try {
-            String sql = "INSERT INTO ProfesorCurso (codProfesor,codCurso,periodo) "
+            String sql = "INSERT INTO ProfesorCurso (idProfesor,codCurso,periodo) "
                     + "VALUES (?, ?, ?)";
 
             PreparedStatement statement = cn.prepareStatement(sql);
-            statement.setInt(1, codProfesor);
+            statement.setInt(1, idProfesor);
             statement.setInt(2, codCurso);
             statement.setString(3, periodo);
 

@@ -1,10 +1,14 @@
 package Controlador;
 
+import Modelo.Constantes;
+import Modelo.EstudianteDAO;
+import Modelo.InstitutoDAO;
+import Modelo.PersonaDAO;
 import java.util.Scanner;
 
 public class Persona {
 
-    Scanner entrada = new Scanner(System.in);
+    private int idPersona;
     private long cedulaPersona;
     private String nombrePersona;
     private String apellido1;
@@ -13,6 +17,7 @@ public class Persona {
     private long telefono;
 
     public Persona() {
+        idPersona = 0;
         cedulaPersona = 0;
         nombrePersona = "";
         apellido1 = "";
@@ -21,32 +26,63 @@ public class Persona {
         telefono = 0;
     }
 
-    public void insertarPersona() {
-        System.out.println("Ingrese la cédula");
-        cedulaPersona = entrada.nextInt();
+    public int buscarPorCedula(int cedPersona) {
+        PersonaDAO datos = new PersonaDAO();
+        Persona res = datos.buscarPorCed(cedPersona);
 
-        System.out.println("Ingrese el nombre");
-        nombrePersona = entrada.next();
-    }
+        if (res == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            this.setIdPersona(res.getIdPersona());
+            this.setCedulaPersona(res.getCedulaPersona());
+            this.setNombrePersona(res.getNombrePersona());
+            this.setApellido1(res.getApellido1());
+            this.setApellido2(res.getApellido2());
+            this.setCorreoElectronico(res.getCorreoElectronico());
 
-    public Boolean buscarCedula() {
-
-        int cedBuscada;
-        boolean cedB = false;
-        System.out.println("Ingrese la cédula a buscar ");
-        cedBuscada = entrada.nextInt();
-        if (cedBuscada == getCedulaPersona()) {
-            cedB = true;
+            return Constantes.EXITO;
         }
-        return cedB;
-    }// fin del métoto para buscar un curso por el código
-
-    public Scanner getEntrada() {
-        return entrada;
     }
 
-    public void setEntrada(Scanner entrada) {
-        this.entrada = entrada;
+    public int insertar(int cedPersona, String nombrePersona, String apellido1, String apellido2, String correoPersonal) {
+        PersonaDAO data = new PersonaDAO();
+
+        return data.insertar(cedPersona, nombrePersona, apellido1, apellido2, nombrePersona);
+    }
+
+    public int actualizar(int idPersona, int cedPersona, String nombrePersona, String apellido1, String apellido2, String correoPersonal) {
+        PersonaDAO data = new PersonaDAO();
+
+        if (data.buscarPorIdPersona(idPersona) == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            return data.actualizar(idPersona, cedPersona, nombrePersona, apellido1, apellido2, correoPersonal);
+        }
+    }
+
+    public int eliminar(int carneEstudiante) {
+        PersonaDAO data = new PersonaDAO();
+        Persona resultado = data.buscarPorIdPersona(carneEstudiante);
+
+        if (resultado == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            return data.eliminar(carneEstudiante);
+        }
+    }
+
+    /**
+     * @return the idPersona
+     */
+    public int getIdPersona() {
+        return idPersona;
+    }
+
+    /**
+     * @param idPersona the idPersona to set
+     */
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
     }
 
     public long getCedulaPersona() {
@@ -78,7 +114,7 @@ public class Persona {
     }
 
     public void setApellido2(String apellido2) {
-        this.apellido1 = apellido2;
+        this.apellido2 = apellido2;
     }
 
     public String getCorreoElectronico() {

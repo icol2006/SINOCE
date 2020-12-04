@@ -7,65 +7,104 @@ package Controlador;
 
 import Modelo.Constantes;
 import Modelo.CursoDAO;
+import Modelo.EstudianteDAO;
 import Modelo.ProfesorDAO;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class Profesor extends Persona {
 
-    private int codProfesor;
+    private int idProfesor;
     private String especialidadProfesor;
     private String profesionProfesor;
 
     public Profesor() {
         super();
-        codProfesor = 0;
+        idProfesor = 0;
         especialidadProfesor = "";
         profesionProfesor = "";
     }
 
-    public int insertar(String especialidadProfesor, String profesionProfesor, int cedPersona) {
+    public ArrayList<Profesor> ListarTodo() {
+        ProfesorDAO datos = new ProfesorDAO();
+        ArrayList<Profesor> listado = datos.listarTodo();
+
+        return listado;
+    }
+
+    public int buscarPorCedula(int cedPersona) {
+        ProfesorDAO datos = new ProfesorDAO();
+        Profesor res = datos.buscarPorCedula(cedPersona);
+
+        if (res == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            this.setIdProfesor(res.getIdProfesor());
+            this.setEspecialidadProfesor(res.getEspecialidadProfesor());
+            this.setProfesionProfesor(res.getProfesionProfesor());
+            this.setIdPersona(res.getIdPersona());
+            this.setCedulaPersona(res.getCedulaPersona());
+            this.setNombrePersona(res.getNombrePersona());
+            this.setApellido1(res.getApellido1());
+            this.setApellido2(res.getApellido2());
+            this.setCorreoElectronico(res.getCorreoElectronico());
+
+            return Constantes.EXITO;
+        }
+    }
+
+    public int insertar(String especialidadProfesor, String profesionProfesor, int idPersona, int cedPersona) {
         ProfesorDAO data = new ProfesorDAO();
 
-        if (data.buscarPorCed(cedPersona) != null) {
+        if (data.buscarPorCedula(cedPersona) != null) {
             return Constantes.ERROR_GUARDAR_COD_EXISTENTE;
         } else {
-            return data.insertar(especialidadProfesor, profesionProfesor, cedPersona);
+            return data.insertar(especialidadProfesor, profesionProfesor, idPersona);
         }
     }
 
-    public int actualizar(String especialidadProfesor, String profesionProfesor, int cedPersona, int codProfesor) {
+    public int actualizar(int idProfesor, String especialidadProfesor, String profesionProfesor, int idPersona) {
         ProfesorDAO data = new ProfesorDAO();
-        Profesor resultado = data.buscarPorCed(cedPersona);
+        Profesor resultado = data.buscarPorIdProfesor(idProfesor);
 
         if (resultado == null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
-            return data.actualizar(especialidadProfesor, profesionProfesor, cedPersona, codProfesor);
+            return data.actualizar(idProfesor, especialidadProfesor, profesionProfesor, idPersona);
         }
     }
 
-    public int eliminar(int cedPersona) {
+    public int eliminar(int idProfesor) {
         ProfesorDAO data = new ProfesorDAO();
-        Profesor resultado = data.buscarPorCed(cedPersona);
+        Profesor resultado = data.buscarPorIdProfesor(idProfesor);
 
         if (resultado == null) {
             return Constantes.ERROR_CONSULTA_NO_EXISTE;
         } else {
-            return data.eliminar(cedPersona);
+            return data.eliminar(idProfesor);
         }
     }
 
-    /**
-     * @return the codProfesor
-     */
-    public int getCodProfesor() {
-        return codProfesor;
+    @Override
+    public String toString() {
+        return "Cedula:"+ this.getCedulaPersona()+ " - "+ this.getNombrePersona() + " " + this.getApellido1() + " " + this.getApellido2();
     }
 
     /**
-     * @param codProfesor the codProfesor to set
+     * @return the idProfesor
      */
-    public void setCodProfesor(int codProfesor) {
-        this.codProfesor = codProfesor;
+    public int getIdProfesor() {
+        return idProfesor;
+    }
+
+    /**
+     * @param idProfesor the idProfesor to set
+     */
+    public void setIdProfesor(int idProfesor) {
+        this.idProfesor = idProfesor;
     }
 
     /**

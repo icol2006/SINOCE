@@ -134,7 +134,7 @@ public class Menu extends javax.swing.JFrame {
     private void btnInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarActionPerformed
         // TODO add your handling code here:
         
-        InsertaCurso frm = new InsertaCurso();
+        FrmInsertaCurso frm = new FrmInsertaCurso();
         frm.setVisible(true);
     }//GEN-LAST:event_btnInsertarActionPerformed
 
@@ -144,7 +144,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        ActualizaCurso ac = new ActualizaCurso();
+        FrmActualizaCurso ac = new FrmActualizaCurso();
         ac.setVisible(true);        
     }//GEN-LAST:event_btnActualizarActionPerformed
 
