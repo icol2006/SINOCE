@@ -122,7 +122,8 @@ public class CursoDAO extends BDConexion {
         Curso c = new Curso();
         ArrayList<Estudiante> listadoEstudiantes = new ArrayList<Estudiante>();
 
-        String SSQL = "select cu.codCurso, cu.nombreCurso, ma.fechaInicio, ma.fechaConclusion, es.idEstudiante, es.carneEstudiante, da.idPersona, da.nombrePersona, da.apellido1, da.apellido2 "
+        String SSQL = "select cu.codCurso, cu.nombreCurso, ma.fechaInicio, ma.fechaConclusion, es.idEstudiante,"
+                + " es.carneEstudiante, da.idPersona, da.nombrePersona, da.apellido1, da.apellido2 "
                 + " from Curso cu, Matricula ma, Estudiante es, DatosPersona da "
                 + " where cu.codCurso=? and cu.codCurso=ma.codCurso and ma.idEstudiante=es.idEstudiante and es.idPersona=da.idPersona ";
 

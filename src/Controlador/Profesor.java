@@ -56,6 +56,27 @@ public class Profesor extends Persona {
         }
     }
 
+    public int buscarPorCodCurso(int codCurso) {
+        ProfesorDAO datos = new ProfesorDAO();
+        Profesor res = datos.buscarPorCodCurso(codCurso);
+
+        if (res == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            this.setIdProfesor(res.getIdProfesor());
+            this.setEspecialidadProfesor(res.getEspecialidadProfesor());
+            this.setProfesionProfesor(res.getProfesionProfesor());
+            this.setIdPersona(res.getIdPersona());
+            this.setCedulaPersona(res.getCedulaPersona());
+            this.setNombrePersona(res.getNombrePersona());
+            this.setApellido1(res.getApellido1());
+            this.setApellido2(res.getApellido2());
+            this.setCorreoElectronico(res.getCorreoElectronico());
+
+            return Constantes.EXITO;
+        }
+    }
+
     public int insertar(String especialidadProfesor, String profesionProfesor, int idPersona, int cedPersona) {
         ProfesorDAO data = new ProfesorDAO();
 
@@ -90,7 +111,7 @@ public class Profesor extends Persona {
 
     @Override
     public String toString() {
-        return "Cedula:"+ this.getCedulaPersona()+ " - "+ this.getNombrePersona() + " " + this.getApellido1() + " " + this.getApellido2();
+        return "Cedula:" + this.getCedulaPersona() + " - " + this.getNombrePersona() + " " + this.getApellido1() + " " + this.getApellido2();
     }
 
     /**
@@ -135,4 +156,8 @@ public class Profesor extends Persona {
         this.profesionProfesor = profesionProfesor;
     }
 
+    public String nombreCompleto()
+    {
+        return this.getNombrePersona()+ " "+ this.getApellido1()+ " " +this.getApellido2();
+    }
 }

@@ -125,6 +125,40 @@ public class ProfesorDAO extends BDConexion {
         return resultado;
     }
 
+    public Profesor buscarPorCodCurso(int codCurso) {
+        Profesor resultado = null;
+
+        String SSQL = "Select pr.idProfesor,pr.especialidadProfesor,pr.profesionProfesor,dap.idPersona,dap.cedPersona,dap.nombrePersona,dap.apellido1, "
+                + " dap.apellido2,dap.correoPersonal FROM Profesores pr, DatosPersona dap, ProfesorCurso prcu"
+                + "  where dap.idPersona = pr.idPersona and pr.idProfesor=prcu.idProfesor and prcu.codCurso = ?";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+            pst.setInt(1, codCurso);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                resultado = new Profesor();
+                resultado.setIdProfesor(rs.getInt("idProfesor"));
+                resultado.setEspecialidadProfesor(rs.getString("especialidadProfesor"));
+                resultado.setProfesionProfesor(rs.getString("profesionProfesor"));
+                resultado.setIdPersona(rs.getInt("idPersona"));
+                resultado.setCedulaPersona(rs.getInt("cedPersona"));
+                resultado.setNombrePersona(rs.getString("nombrePersona"));
+                resultado.setApellido1(rs.getString("apellido1"));
+                resultado.setApellido2(rs.getString("apellido2"));
+                resultado.setCorreoElectronico(rs.getString("correoPersonal"));
+            }
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar profesor ::: {0}", ex.getLocalizedMessage());
+        }
+        return resultado;
+    }
+
     public int insertar(String especialidadProfesor, String profesionProfesor, int idPersona) {
 
         try {
@@ -151,7 +185,7 @@ public class ProfesorDAO extends BDConexion {
         return Constantes.ERROR_GUARDAR;
     }
 
-    public int actualizar(int idProfesor,String especialidadProfesor, String profesionProfesor, int idPersona) {
+    public int actualizar(int idProfesor, String especialidadProfesor, String profesionProfesor, int idPersona) {
 
         try {
             String sql = "UPDATE Profesores set especialidadProfesor = ?, profesionProfesor = ?, idPersona = ? "
