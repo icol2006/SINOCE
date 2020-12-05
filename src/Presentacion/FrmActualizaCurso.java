@@ -11,10 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-/**
- *
- * @author yrojasp
- */
 public class FrmActualizaCurso extends javax.swing.JFrame {
 
     /**

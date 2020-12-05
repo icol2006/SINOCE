@@ -5,10 +5,7 @@
  */
 package Presentacion;
 
-/**
- *
- * @author yrojasp
- */
+
 public class Menu extends javax.swing.JFrame {
 
     /**
@@ -139,8 +136,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInsertarActionPerformed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        BuscaCursoPorCod bcc = new BuscaCursoPorCod();
-        bcc.setVisible(true);
+    
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed

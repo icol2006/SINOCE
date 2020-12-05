@@ -10,10 +10,7 @@ import Controlador.Instituto;
 import Modelo.Constantes;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Maykol
- */
+
 public class FrmActualizarInstituto extends javax.swing.JFrame {
 
     private int idInstituto;

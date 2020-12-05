@@ -9,10 +9,7 @@ import Controlador.Curso;
 import Modelo.Constantes;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author yrojasp
- */
+
 public class FrmInsertaCurso extends javax.swing.JFrame {
 
     /**

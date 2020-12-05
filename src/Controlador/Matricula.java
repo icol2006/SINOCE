@@ -30,10 +30,30 @@ public class Matricula {
         fechaConclusion = null;
     }
 
+    public int buscarPorCodCurso_IdEstudiante(int codCurso,
+            int idEstudiante) {
+        MatriculaDAO datos = new MatriculaDAO();
+        Matricula res = datos.buscarPorCodCurso_IdEstudiante(codCurso, idEstudiante);
+
+        if (res == null) {
+            return Constantes.ERROR_CONSULTA_NO_EXISTE;
+        } else {
+            this.setIdMatricula(res.getIdMatricula());
+            this.setPeriodoMatricula(res.getPeriodoMatricula());
+            this.setCodCurso(res.getCodCurso());
+            this.setIdEstudiante(res.getIdEstudiante());
+            this.setIdInstituto(res.getIdInstituto());
+            this.setFechaInicio(res.getFechaInicio());
+            this.setFechaConclusion(res.getFechaConclusion());
+            
+            return Constantes.EXITO;
+        }
+    }
+
     public int insertar(String periodoMatricula, int codCurso, int idEstudiante, int idInstituto, Date fechaInicio, Date fechaConclusion) {
         MatriculaDAO data = new MatriculaDAO();
 
-        if (data.buscarPorPerido_CodCurso_CarEstudiante_CodSede(periodoMatricula, idInstituto, this.idEstudiante, this.idInstituto) != null) {
+        if (data.buscarPorCodCurso_IdEstudiante(codCurso, idEstudiante)!= null) {
             return Constantes.ERROR_GUARDAR_COD_EXISTENTE;
         } else {
             return data.insertar(periodoMatricula, codCurso, idEstudiante, idInstituto, fechaInicio, fechaConclusion);

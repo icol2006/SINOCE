@@ -9,10 +9,6 @@ import Controlador.Instituto;
 import Modelo.Constantes;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Maykol
- */
 public class FrmInsertarInstituto extends javax.swing.JFrame {
 
     /**

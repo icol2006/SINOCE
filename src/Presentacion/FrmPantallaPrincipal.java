@@ -40,6 +40,11 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         menAsignarCursoProfesor = new javax.swing.JMenuItem();
         menListaoCursosProfesores = new javax.swing.JMenuItem();
         menMatricularEstudiantes = new javax.swing.JMenuItem();
+        menCursoEstudiantes = new javax.swing.JMenuItem();
+        menEstadisticaCurso = new javax.swing.JMenuItem();
+        menNotasCurso = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         menListadoInstituto = new javax.swing.JMenuItem();
         menInsertarInstituto = new javax.swing.JMenuItem();
@@ -154,7 +159,43 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         });
         jMenu3.add(menMatricularEstudiantes);
 
+        menCursoEstudiantes.setText("Listado Estudiantes por Curso");
+        menCursoEstudiantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menCursoEstudiantesActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menCursoEstudiantes);
+
+        menEstadisticaCurso.setText("Estadisticas Curso");
+        menEstadisticaCurso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menEstadisticaCursoActionPerformed(evt);
+            }
+        });
+        jMenu3.add(menEstadisticaCurso);
+
         menuBar.add(jMenu3);
+
+        menNotasCurso.setText("Notas");
+
+        jMenuItem2.setText("Ingresar Nota");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menNotasCurso.add(jMenuItem2);
+
+        jMenuItem1.setText("Listado Notas por Curso");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menNotasCurso.add(jMenuItem1);
+
+        menuBar.add(menNotasCurso);
 
         jMenu4.setText("Instituto");
 
@@ -281,6 +322,26 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
         frm.setVisible(true);
     }//GEN-LAST:event_menMatricularEstudiantesActionPerformed
 
+    private void menCursoEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCursoEstudiantesActionPerformed
+        FrmListadoCursosAlumnos frm = new FrmListadoCursosAlumnos();
+        frm.setVisible(true);
+    }//GEN-LAST:event_menCursoEstudiantesActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        FrmListadoNotasCurso frm = new FrmListadoNotasCurso();
+        frm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        FrmInsertarNota frm = new FrmInsertarNota();
+        frm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void menEstadisticaCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menEstadisticaCursoActionPerformed
+        FrmEstadisticasCurso frm = new FrmEstadisticasCurso();
+        frm.setVisible(true);
+    }//GEN-LAST:event_menEstadisticaCursoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -323,11 +384,15 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem menActualizarCursos;
     private javax.swing.JMenuItem menActualizarEstudiantes;
     private javax.swing.JMenuItem menActualizarInstituto;
     private javax.swing.JMenuItem menActualizarProfesor;
     private javax.swing.JMenuItem menAsignarCursoProfesor;
+    private javax.swing.JMenuItem menCursoEstudiantes;
+    private javax.swing.JMenuItem menEstadisticaCurso;
     private javax.swing.JMenuItem menInsertarCursos;
     private javax.swing.JMenuItem menInsertarEstudiantes;
     private javax.swing.JMenuItem menInsertarInstituto;
@@ -338,6 +403,7 @@ public class FrmPantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menListaoCursosProfesores;
     private javax.swing.JMenuItem menListarProfesor;
     private javax.swing.JMenuItem menMatricularEstudiantes;
+    private javax.swing.JMenu menNotasCurso;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 

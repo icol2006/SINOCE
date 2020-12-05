@@ -11,10 +11,7 @@ import Controlador.Persona;
 import Modelo.Constantes;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Maykol
- */
+
 public class FrmInsertaEstudiante extends javax.swing.JFrame {
 
     /**

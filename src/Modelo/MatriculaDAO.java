@@ -56,19 +56,17 @@ public class MatriculaDAO extends BDConexion {
         return resultado;
     }
 
-    public Matricula buscarPorPerido_CodCurso_CarEstudiante_CodSede(String periodoMatricula, int codCurso,
-            int idEstudiante, int idInstituto) {
+    public Matricula buscarPorCodCurso_IdEstudiante(int codCurso,
+            int idEstudiante) {
         Matricula resultado = null;
 
         String SSQL = "Select idMatricula,periodoMatricula,codCurso,idEstudiante,idInstituto,fechaInicio,fechaConclusion "
-                + " from Matricula where periodoMatricula = ? and codCurso = ? and idEstudiante = ? and idInstituto = ?";
+                + " from Matricula where  codCurso = ? and idEstudiante = ?";
 
         try {
             PreparedStatement pst = cn.prepareStatement(SSQL);
-            pst.setString(1, periodoMatricula);
-            pst.setInt(2, codCurso);
-            pst.setInt(3, idEstudiante);
-            pst.setInt(4, idInstituto);
+            pst.setInt(1, codCurso);
+            pst.setInt(2, idEstudiante);
 
             ResultSet rs = pst.executeQuery();
 

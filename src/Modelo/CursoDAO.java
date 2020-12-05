@@ -103,9 +103,9 @@ public class CursoDAO extends BDConexion {
                 p.setNombrePersona(rs.getString("nombrePersona"));
                 p.setApellido1(rs.getString("apellido1"));
                 p.setApellido2(rs.getString("apellido2"));
-                
+
                 c.setProfesor(p);
-                
+
                 listado.add(c);
             }
 
@@ -115,6 +115,49 @@ public class CursoDAO extends BDConexion {
             LOGGER.log(Level.SEVERE, "Excepcion al consultar curso ::: {0}", ex.getLocalizedMessage());
         }
         return listado;
+    }
+
+    public Curso ListarCursoEstudiantes(int codCurso) {
+
+        Curso c = new Curso();
+        ArrayList<Estudiante> listadoEstudiantes = new ArrayList<Estudiante>();
+
+        String SSQL = "select cu.codCurso, cu.nombreCurso, ma.fechaInicio, ma.fechaConclusion, es.idEstudiante, es.carneEstudiante, da.idPersona, da.nombrePersona, da.apellido1, da.apellido2 "
+                + " from Curso cu, Matricula ma, Estudiante es, DatosPersona da "
+                + " where cu.codCurso=? and cu.codCurso=ma.codCurso and ma.idEstudiante=es.idEstudiante and es.idPersona=da.idPersona ";
+
+        try {
+            PreparedStatement pst = cn.prepareStatement(SSQL);
+            pst.setInt(1, codCurso);
+
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                c.setCodCurso(rs.getInt("codCurso"));
+                c.setNombreCurso(rs.getString("nombreCurso"));
+                c.setFechaInicio(rs.getDate("fechaInicio"));
+                c.setFechaFinal(rs.getDate("fechaConclusion"));
+
+                Estudiante e = new Estudiante();
+                e.setIdEstudiante(rs.getInt("idEstudiante"));
+                e.setCarneEstudiante(rs.getString("carneEstudiante"));
+                e.setIdPersona(rs.getInt("idPersona"));
+                e.setNombrePersona(rs.getString("nombrePersona"));
+                e.setApellido1(rs.getString("apellido1"));
+                e.setApellido2(rs.getString("apellido2"));
+
+                listadoEstudiantes.add(e);
+            }
+
+            c.setListadoEstudiantes(listadoEstudiantes);
+
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Excepcion al consultar curso ::: {0}", ex.getLocalizedMessage());
+        }
+        return c;
     }
 
     public Curso buscarCursoPorCod(int codCurso) {

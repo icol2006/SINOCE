@@ -10,10 +10,7 @@ import Controlador.Instituto;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Maykol
- */
+
 public class FrmListadoEstudiantes extends javax.swing.JFrame {
 
     /**

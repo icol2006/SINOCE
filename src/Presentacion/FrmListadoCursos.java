@@ -9,10 +9,7 @@ import Controlador.Curso;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Maykol
- */
+
 public class FrmListadoCursos extends javax.swing.JFrame {
 
     /**

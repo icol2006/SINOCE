@@ -6,17 +6,22 @@ import java.sql.SQLException;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import Presentacion.FrmInsertaCurso;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Curso {
+
 
 //declaración de variables de instancia
     private String nombreCurso;
     private int codCurso;
     private int horas;
     private String periodo;
+    private Date fechaInicio;
+    private Date fechaFinal;
 
     private Profesor profesor;
+    private ArrayList<Estudiante> listadoEstudiantes;
 
 //método constructor sin parámetros
     public Curso() {
@@ -25,6 +30,7 @@ public class Curso {
         horas = 0;
         periodo = "";
         profesor = new Profesor();
+        listadoEstudiantes = new ArrayList<Estudiante>();
     }
 //método constructor con parámetros
 
@@ -48,6 +54,13 @@ public class Curso {
         ArrayList<Curso> listado = curso.ListarCursoProfesor();
 
         return listado;
+    }
+
+    public Curso ListarCursoEstudiantes(int codCurso) {
+        CursoDAO curso = new CursoDAO();
+        Curso c = curso.ListarCursoEstudiantes(codCurso);
+
+        return c;
     }
 
     public int Insertar(int cod, String nombreCurso, int duracion) {
@@ -149,6 +162,48 @@ public class Curso {
      */
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
+    }
+
+    /**
+     * @return the listadoEstudiantes
+     */
+    public ArrayList<Estudiante> getListadoEstudiantes() {
+        return listadoEstudiantes;
+    }
+
+    /**
+     * @param listadoEstudiantes the listadoEstudiantes to set
+     */
+    public void setListadoEstudiantes(ArrayList<Estudiante> listadoEstudiantes) {
+        this.listadoEstudiantes = listadoEstudiantes;
+    }
+    
+        /**
+     * @return the fechaInicio
+     */
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    /**
+     * @param fechaInicio the fechaInicio to set
+     */
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    /**
+     * @return the fechaFinal
+     */
+    public Date getFechaFinal() {
+        return fechaFinal;
+    }
+
+    /**
+     * @param fechaFinal the fechaFinal to set
+     */
+    public void setFechaFinal(Date fechaFinal) {
+        this.fechaFinal = fechaFinal;
     }
 
 }

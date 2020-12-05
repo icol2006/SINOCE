@@ -18,10 +18,7 @@ import java.util.Map;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Maykol
- */
+
 public class FrmAsignarCursoProfesor extends javax.swing.JFrame {
 
     private int idProfesor;

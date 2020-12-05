@@ -20,10 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Maykol
- */
 public class FrmMatricularEstudiante extends javax.swing.JFrame {
 
     /**
@@ -76,6 +72,8 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -125,6 +123,10 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("dd/mm/yyyy");
+
+        jLabel3.setText("dd/mm/yyyy");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -147,12 +149,17 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
                             .addComponent(cbxCursos, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtPeriodo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbxInstitutos, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel2))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(8, 8, 8)
                         .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFechaConclusion, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtFechaConclusion, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3))
                     .addComponent(btnGuardar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -180,11 +187,13 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
                 .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFechaConclusion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFechaConclusion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addComponent(btnGuardar)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -195,13 +204,13 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
 
     private java.sql.Date ConvertirFecha(String datos) {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        java.sql.Date sql=null;
+        java.sql.Date sql = null;
 
         try {
             Date parsed = format.parse(datos);
             sql = new java.sql.Date(parsed.getTime());
         } catch (Exception ex) {
-            int ad=0;
+            int ad = 0;
         }
         return sql;
     }
@@ -211,7 +220,7 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Para continuar, complete todos los campos solicitados");
         } else {
 
-            Matricula data = new Matricula();
+            Matricula matricula = new Matricula();
 
             String periodo = txtPeriodo.getText();
 
@@ -223,19 +232,18 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
 
             Instituto instituto = (Instituto) cbxInstitutos.getSelectedItem();
             int idInstituto = instituto.getIdInstituto();
-         
 
             java.sql.Date fechaInicio = ConvertirFecha(this.txtFechaInicio.getText());
             java.sql.Date fechaConclusion = ConvertirFecha(this.txtFechaConclusion.getText());
 
-            int resultado = data.insertar(periodo, codCurso, idEstudiante, idInstituto, fechaInicio, fechaConclusion);
+            int resultado = matricula.insertar(periodo, codCurso, idEstudiante, idInstituto, fechaInicio, fechaConclusion);
 
             if (resultado == Constantes.EXITO) {
                 JOptionPane.showMessageDialog(null, "¡Datos insertados de manera exitosa!",
                         "Resultado de guardado", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 if (resultado == Constantes.ERROR_GUARDAR_COD_EXISTENTE) {
-                    JOptionPane.showMessageDialog(null, "¡El código de sede ya existe!",
+                    JOptionPane.showMessageDialog(null, "¡Ya esta matriculado en este curso!",
                             "Resultado de guardado", JOptionPane.ERROR_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(this, "Error al guardar los datos", "Error",
@@ -294,6 +302,8 @@ public class FrmMatricularEstudiante extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;

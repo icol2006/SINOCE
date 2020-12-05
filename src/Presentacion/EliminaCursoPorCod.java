@@ -9,10 +9,6 @@ import Controlador.Curso;
 import Modelo.Constantes;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author yrojasp
- */
 public class EliminaCursoPorCod extends javax.swing.JFrame {
 
     /**

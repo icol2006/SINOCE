@@ -12,10 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author yrojasp
- */
+
 public class PantallaInicio extends javax.swing.JFrame {
 
     /**

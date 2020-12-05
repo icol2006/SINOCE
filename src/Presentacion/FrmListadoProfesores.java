@@ -10,10 +10,7 @@ import Controlador.Profesor;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Maykol
- */
+
 public class FrmListadoProfesores extends javax.swing.JFrame {
 
     /**

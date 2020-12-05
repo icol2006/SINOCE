@@ -43,7 +43,11 @@
                           <Component id="cbxCursos" min="-2" pref="430" max="-2" attributes="0"/>
                           <Component id="txtPeriodo" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
                           <Component id="cbxInstitutos" alignment="0" min="-2" pref="430" max="-2" attributes="0"/>
-                          <Component id="txtFechaInicio" alignment="0" min="-2" pref="131" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtFechaInicio" min="-2" pref="131" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -51,6 +55,8 @@
                       <Component id="jLabel11" min="-2" pref="124" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtFechaConclusion" min="-2" pref="133" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="btnGuardar" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -87,11 +93,13 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtFechaInicio" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel12" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
+                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel11" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
                   <Component id="txtFechaConclusion" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
@@ -234,6 +242,16 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="dd/mm/yyyy"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="dd/mm/yyyy"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
